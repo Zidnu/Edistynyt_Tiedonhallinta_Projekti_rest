@@ -5,6 +5,7 @@ from sqlalchemy.dialects.mysql import INTEGER
 from sqlalchemy.orm import Mapped, declarative_base, mapped_column, relationship
 from sqlalchemy.orm.base import Mapped
 
+
 Base = declarative_base()
 
 
@@ -46,6 +47,7 @@ class Sensors(Base):
     parameter = mapped_column(String(45), nullable=False)
     unit = mapped_column(String(45), nullable=False)
     location_id = mapped_column(INTEGER(11), nullable=False)
+
 
     location: Mapped['Locations'] = relationship('Locations', back_populates='sensors')
     measurements: Mapped[List['Measurements']] = relationship('Measurements', uselist=True, back_populates='sensor')
