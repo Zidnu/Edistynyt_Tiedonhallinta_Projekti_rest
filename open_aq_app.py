@@ -15,12 +15,14 @@ def get_daily_measurements(location_id):
     result = open_aq_database_mysql.get_location_daily_measurements(location_id, date)
     return jsonify(result)
 
+
 # Valitun mittauspaikan kaikkien mittausten lukumäärä
 @app.route('/measurements/<int:loc_id>/count', methods=['GET'])
 def get_total_measurement(loc_id):
     # Funktio joka tekee count kyselyn
     result = open_aq_database_mysql.get_total_place_measurement(loc_id)
     return jsonify(result)
+
 
 # Valitun mittauspaikan ja sensorin päivittäinen mittauskeskiarvo
 @app.route('/measurements/<int:loc_id>/average', methods=['GET'])
