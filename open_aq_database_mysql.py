@@ -57,3 +57,31 @@ def get_total_place_measurement(loc_id):
             # Palauttaa yhden rivin
             return cur.fetchone()
 
+# Mittauksen keskiarvo
+def get_daily_avg_for_sensor(loc_id, sensor_id, date_str):
+    # Käytetään mysql yhteyttä
+    with mysql.connector.connect(database=os.getenv('PG_DB'),
+                          user=os.getenv('PG_USER'),
+                          password=os.getenv('PG_PWD')) as conn:
+
+        with conn.cursor(dictionary=True) as cur:
+
+            # Lasketaan keskiarvo - value
+            # m = measurement
+            # s = sensors
+            _query = (" SELECT ROUND(AVG(m.value), 2) AS daily_avg"
+                      " FROM measurements m"
+                      " JOIN sensors s ON m.sensor_id = s.id"
+                      " WHERE s.location_id = %s"
+                      " AND s.id = %s"
+                      " AND DATE(m.datetime) = %s"
+                      )
+
+            # MUISTA
+            # cur.execute-metodi
+            # -> muuttujat samassa järjestyksessä kuin %s merkit
+            cur.execute(_query, (loc_id, sensor_id, date_str))
+
+            # Palauttaa yhden keskiarvon
+            return cur.fetchone()
+

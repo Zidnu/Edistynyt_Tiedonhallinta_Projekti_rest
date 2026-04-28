@@ -28,7 +28,8 @@ def get_total_measurement(loc_id):
 @app.route('/measurements/<int:loc_id>/average', methods=['GET'])
 def get_daily_average(loc_id):
     # Sensorin ID ja päivä
-    sensor_id = request.args.get('sensor_id')
+    # sensor_id -> int
+    sensor_id = request.args.get('sensor_id', type=int)
     date = request.args.get('date')
     result = open_aq_database_mysql.get_daily_avg_for_sensor(loc_id, sensor_id, date)
     return jsonify(result)
