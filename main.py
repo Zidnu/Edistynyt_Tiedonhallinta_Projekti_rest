@@ -62,3 +62,10 @@ try:
 
 except Exception as e:
     print(e)
+
+    _query = (" SELECT m.datetime, m.value, s.parameter, s.unit"
+              " FROM measurements m"
+              " JOIN sensors s ON m.sensor_id = s.id"
+              " WHERE s.location_id = %s"
+              " AND m.datetime = %s"
+              " ORDER BY m.datetime")
